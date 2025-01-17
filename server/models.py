@@ -27,6 +27,10 @@ class Game(db.Model):
 
     reviews = db.relationship("Review", back_populates="game")
 
+    # Association proxy to get users for this game through reviews
+    users = association_proxy("reviews", "user",
+                              creator=lambda user_obj: Review(user=user_obj))
+
     def __repr__(self):
         return f"<Game {self.title} for {self.platform}>"
 
